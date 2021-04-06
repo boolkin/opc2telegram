@@ -30,7 +30,7 @@ namespace CSSample
     {
         private OpcServer theSrv;
         private OpcGroup theGrp;
-        // разбираем все что написано в конфиге:
+        // СЂР°Р·Р±РёСЂР°РµРј РІСЃРµ С‡С‚Рѕ РЅР°РїРёСЃР°РЅРѕ РІ РєРѕРЅС„РёРіРµ:
 
         string serverProgID = ConfigurationManager.AppSettings["opcID"]; 
         private static string[] tags = ConfigurationManager.AppSettings["checkTags"].Split(',');
@@ -126,17 +126,17 @@ namespace CSSample
                 {
                     if (consoleOut == "yes")
                     {
-                        Console.WriteLine(" ih={0} v={1} q={2} t={3}", s.HandleClient, s.DataValue, s.Quality, s.TimeStamp); // выводит данные при изменении в консоль
+                        Console.WriteLine(" ih={0} v={1} q={2} t={3}", s.HandleClient, s.DataValue, s.Quality, s.TimeStamp); // РІС‹РІРѕРґРёС‚ РґР°РЅРЅС‹Рµ РїСЂРё РёР·РјРµРЅРµРЅРёРё РІ РєРѕРЅСЃРѕР»СЊ
                     }
-                    currentValues[s.HandleClient] = Convert.ToSingle(s.DataValue); //добавляет в массив измененное значение тега
+                    currentValues[s.HandleClient] = Convert.ToSingle(s.DataValue); //РґРѕР±Р°РІР»СЏРµС‚ РІ РјР°СЃСЃРёРІ РёР·РјРµРЅРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ С‚РµРіР°
                 }
                 else
                     Console.WriteLine(" ih={0}    ERROR=0x{1:x} !", s.HandleClient, s.Error);
             }
             for (int i = 0; i < tags.Length; i++)
             {
-                bool istrue = checkcond(conditions[i], i); // проверяем значение каждого тега из конфига с соответствующим условием записанным в конфиге 
-                if (istrue && !sndstat[i]) // при этом идет проверка посылалось ли это сообщение уже, чтобы посылать сообщение лишь при однократном изменении тега
+                bool istrue = checkcond(conditions[i], i); // РїСЂРѕРІРµСЂСЏРµРј Р·РЅР°С‡РµРЅРёРµ РєР°Р¶РґРѕРіРѕ С‚РµРіР° РёР· РєРѕРЅС„РёРіР° СЃ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРј СѓСЃР»РѕРІРёРµРј Р·Р°РїРёСЃР°РЅРЅС‹Рј РІ РєРѕРЅС„РёРіРµ 
+                if (istrue && !sndstat[i]) // РїСЂРё СЌС‚РѕРј РёРґРµС‚ РїСЂРѕРІРµСЂРєР° РїРѕСЃС‹Р»Р°Р»РѕСЃСЊ Р»Рё СЌС‚Рѕ СЃРѕРѕР±С‰РµРЅРёРµ СѓР¶Рµ, С‡С‚РѕР±С‹ РїРѕСЃС‹Р»Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ Р»РёС€СЊ РїСЂРё РѕРґРЅРѕРєСЂР°С‚РЅРѕРј РёР·РјРµРЅРµРЅРёРё С‚РµРіР°
                 {
                     telegramsend(message[i]);
                     sndstat[i] = true;
@@ -147,8 +147,8 @@ namespace CSSample
         }
         private static bool checkcond(string strcond, int index)
         {
-            int pos = strcond.IndexOf(";"); // находим позицию точки с запятой
-            float value = float.Parse(strcond.Substring(pos + 1)); // парсим значение которое идет после точки с запятой
+            int pos = strcond.IndexOf(";"); // РЅР°С…РѕРґРёРј РїРѕР·РёС†РёСЋ С‚РѕС‡РєРё СЃ Р·Р°РїСЏС‚РѕР№
+            float value = float.Parse(strcond.Substring(pos + 1)); // РїР°СЂСЃРёРј Р·РЅР°С‡РµРЅРёРµ РєРѕС‚РѕСЂРѕРµ РёРґРµС‚ РїРѕСЃР»Рµ С‚РѕС‡РєРё СЃ Р·Р°РїСЏС‚РѕР№
 
             if (strcond.Contains("gt;"))
             {
@@ -189,10 +189,10 @@ namespace CSSample
             {
                 string[] abonent = ConfigurationManager.AppSettings["abonents"].Split(',');
 
-                for (int i = 0; i < abonent.Length; i++) // цикл для отправки сообщения каждому абоненту из конфига
+                for (int i = 0; i < abonent.Length; i++) // С†РёРєР» РґР»СЏ РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ РєР°Р¶РґРѕРјСѓ Р°Р±РѕРЅРµРЅС‚Сѓ РёР· РєРѕРЅС„РёРіР°
                 {
-                    WebClient client = new WebClient(); // создаем Веб Клиент чтобы отправить через post запрос строку в тегерам
-                    client.Encoding = Encoding.UTF8; // без этого у меня ругался на кириллицу
+                    WebClient client = new WebClient(); // СЃРѕР·РґР°РµРј Р’РµР± РљР»РёРµРЅС‚ С‡С‚РѕР±С‹ РѕС‚РїСЂР°РІРёС‚СЊ С‡РµСЂРµР· post Р·Р°РїСЂРѕСЃ СЃС‚СЂРѕРєСѓ РІ С‚РµРіРµСЂР°Рј
+                    client.Encoding = Encoding.UTF8; // Р±РµР· СЌС‚РѕРіРѕ Сѓ РјРµРЅСЏ СЂСѓРіР°Р»СЃСЏ РЅР° РєРёСЂРёР»Р»РёС†Сѓ
                     string reply = client.DownloadString(urlPrefix + "?text=" + DateTime.Now.ToString("HH:mm:ss ") + msg + "&chat_id=" + abonent[i]);
                     if (consoleOut == "yes") Console.WriteLine(reply);
                     //File.WriteAllText("C:\\logs\\tgsend_" + DateTime.Now.ToString("HHmmss") + ".txt", "reply from telegram: " + reply);
@@ -200,7 +200,7 @@ namespace CSSample
             }
             catch (Exception ex)
             {
-               // Console.WriteLine("исключение: " + ex.ToString() + "\n " + ex.Message);
+               // Console.WriteLine("РёСЃРєР»СЋС‡РµРЅРёРµ: " + ex.ToString() + "\n " + ex.Message);
                 File.WriteAllText("C:\\logs\\err_tgend_" + DateTime.Now.ToString("HHmmss") + ".txt", "tgsend: " + ex.ToString() + "\n " + ex.Message);
             }
 
@@ -221,7 +221,7 @@ namespace CSSample
 
         static void Main(string[] args)
         {
-            Directory.CreateDirectory("C:\\logs\\"); // создаем папку если еще не создана для записи логов ошибок
+            Directory.CreateDirectory("C:\\logs\\"); // СЃРѕР·РґР°РµРј РїР°РїРєСѓ РµСЃР»Рё РµС‰Рµ РЅРµ СЃРѕР·РґР°РЅР° РґР»СЏ Р·Р°РїРёСЃРё Р»РѕРіРѕРІ РѕС€РёР±РѕРє
             Tester tst = new Tester();
             tst.Work();
         }
@@ -241,7 +241,7 @@ namespace CSSample
     <add key="checkTags" value="numeric.sin.int16,storage.bool.reg02" />
     <!-- ee;0 (equal 0) mean that program will send message then storage.bool.reg01 = 0 -->
     <add key="tagsConditions" value="ge;90,ee;1" />
-    <add key="message" value="Внимание Авария (высокая температра)!,ALARM!!!" />
+    <add key="message" value="Р’РЅРёРјР°РЅРёРµ РђРІР°СЂРёСЏ (РІС‹СЃРѕРєР°СЏ С‚РµРјРїРµСЂР°С‚СЂР°)!,ALARM!!!" />
     <add key="abonents" value="702xxxx" />
     <add key="refreshTime" value="1000" />
     <!-- "yes" or "no" to show values in console -->
